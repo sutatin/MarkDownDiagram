@@ -55,7 +55,20 @@ this.create = function(editable,box) {
 			} 
 		}
 		type ="<table>" ;
-		inner = "<tr><td>"+box.inner.join("</td></tr><tr><td>")+"</td></tr>" ;
+
+		box.inner.forEach(function(arrval){
+			if(/\(.+?\)/.test(arrval)){
+
+				var tempcls = arrval.match(/\(.+?\)/)[0];
+				var cls = "class = "+tempcls.substr(1,tempcls.length-2);
+				var value = arrval.replace(/\(.+?\)/,"");
+
+				inner = inner + "<tr "+cls+"><td>"+value+"</td></tr>";
+			}else{
+				inner = inner +"<tr><td>"+arrval+"</td></tr>";
+			}
+		})
+
 		if(box.title!=null) inner = "<tr><th>"+box.title+"</th></tr>" +inner ;
 	} else {
 		type = "<div>" ;
